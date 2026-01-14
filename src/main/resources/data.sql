@@ -31,3 +31,24 @@ INSERT INTO MEDICAMENT (NOM, CATEGORIE_CODE, QUANTITE_PAR_UNITE, PRIX_UNITAIRE, 
 INSERT INTO MEDICAMENT (NOM, CATEGORIE_CODE, QUANTITE_PAR_UNITE, PRIX_UNITAIRE, UNITES_EN_STOCK, UNITES_COMMANDEES, NIVEAU_DE_REAPPRO, INDISPONIBLE, imageURL) VALUES
 ('Lévofloxacine 500mg', 3, 'Boîte de 7 comprimés', 15.80, 160, 0, 18, true, 'https://images.unsplash.com/photo-1628771065518-0d82f1938462?w=400'),
 ('Clindamycine 300mg', 3, 'Boîte de 16 gélules', 13.20, 140, 0, 16, true, 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400');
+-- Insertion des Dispensaires (en supposant que AdressePostale a rue et ville)
+INSERT INTO DISPENSAIRE (NOM, REGION) VALUES 
+('Hôpital Central', 'Occitanie'),
+('Clinique du Parc', 'Île-de-France');
+
+-- Insertion de Commandes
+INSERT INTO COMMANDE (DATE_SAISIE, DISPENSAIRE_ID) VALUES 
+('2026-01-10', 1),
+('2026-01-12', 2);
+
+-- Insertion de Lignes (Quantité, Commande_ID, Medicament_ID)
+-- On utilise la référence 1 (Morphine) et 2 (Doliprane) créées plus haut
+INSERT INTO LIGNE (QUANTITE, COMMANDE_NUMERO, MEDICAMENT_REFERENCE) VALUES 
+(5, 1, 1),
+(10, 1, 2),
+(20, 2, 2);
+
+-- Exemple d'insertion avec les champs de l'adresse intégrés
+INSERT INTO DISPENSAIRE (NOM, REGION, RUE, CODE_POSTAL, VILLE) VALUES 
+('Hôpital Central', 'Occitanie', '12 Avenue des Fleurs', '31000', 'Toulouse'),
+('Clinique du Parc', 'Île-de-France', '5 Rue de la Paix', '75001', 'Paris');
