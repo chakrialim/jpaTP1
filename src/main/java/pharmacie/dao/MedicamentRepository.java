@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import pharmacie.entity.Medicament;
+import pharmacie.entity.UnitesParMedicament;
 
 // Cette interface sera auto-implémentée par Spring
 public interface MedicamentRepository extends JpaRepository<Medicament, Integer> {
@@ -21,4 +23,16 @@ public interface MedicamentRepository extends JpaRepository<Medicament, Integer>
      * @return la liste des médicaments disponibles
      */
     List<Medicament> findByIndisponibleFalse();
+
+    /**
+     * Calcul le nombre d'unités commandées pour chaque produit d'une catégorie
+     * @param codeCategorie la catégorie à traiter
+     * @return le nomber d'unités commandées pour chaque produit, 
+     * sous la forme d'une liste de projections UnitesParProduit
+     */
+    @Query("SELECT ligne.medicament.nom AS nom, SUM(ligne.quantite) AS unites"
+        + " FROM Ligne ligne "
+        + " WHERE ligne.medicament.categorie.code = :codeCategorie"
+        + " GROUP BY nom")
+    public List<UnitesParMedicament> medicamentsVendusPour(Integer codeCategorie);
 }
