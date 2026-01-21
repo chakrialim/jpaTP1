@@ -62,7 +62,6 @@ public class Medicament {
 	@ManyToOne(optional = false)
 	@NonNull
 	@ToString.Exclude
-
 	private Categorie categorie ;
 
 }

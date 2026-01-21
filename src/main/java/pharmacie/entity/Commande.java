@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @RequiredArgsConstructor @ToString
@@ -24,5 +25,5 @@ public class Commande {
 
     @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<Ligne> lignes;
+    private List<Ligne> lignes =  new ArrayList<>();
 }

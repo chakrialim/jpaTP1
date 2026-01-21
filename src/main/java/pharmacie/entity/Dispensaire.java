@@ -21,7 +21,6 @@ public class Dispensaire {
     @NonNull @NotBlank
     private String region;
 
-    @OneToMany(mappedBy = "dispensaire")
-    @ToString.Exclude
+    @OneToMany(mappedBy = "dispensaire", cascade = CascadeType.REMOVE, orphanRemoval = true)    @ToString.Exclude
     private List<Commande> commandes;
 }

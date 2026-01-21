@@ -7,7 +7,6 @@ import pharmacie.entity.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +17,10 @@ public class RepositoryCustomMethodsTest {
     private CategorieRepository categorieRepository;
     @Autowired
     private MedicamentRepository medicamentRepository;
+    @Autowired
+    private DispensaireRepository dispensaireRepository;
+    @Autowired
+    private CommandeRepository commandeRepository;
 
 
     @Test // Ce test se base uniquement sur les données définies dans data.sql
@@ -55,5 +58,28 @@ public class RepositoryCustomMethodsTest {
         assertTrue(list.stream().anyMatch(cat -> cat.getLibelle().equals("AnalgesiquesTest")));
     }
 
+    @Test // Ce test se base uniquement sur les données définies dans data.sql
+    public void testDispensaireCustomMethods() {
+        // Trouve toutes les dispensaires dans une région donnée
+        List<Dispensaire> dispensaires = dispensaireRepository.findByRegion("Île-de-France");
+
+        assertFalse(dispensaires.isEmpty());
+        for (Dispensaire d : dispensaires) {
+            assertEquals("Île-de-France", d.getRegion());
+        }
+    }
+
+  @Test // Ce test se base uniquement sur les données définies dans data.sql
+    public void testCommandeCustomMethods() {
+        LocalDate dateSeuil = LocalDate.of(2025, 1, 1);
+
+        // Trouve toutes les commandes après une date donnée
+        List<Commande> commandes = commandeRepository.findByDateSaisieAfter(dateSeuil);
+
+        assertFalse(commandes.isEmpty());
+        for (Commande c : commandes) {
+            assertTrue(c.getDateSaisie().isAfter(dateSeuil));
+        }
+    }
 
 }
