@@ -35,4 +35,16 @@ public interface MedicamentRepository extends JpaRepository<Medicament, Integer>
         + " WHERE ligne.medicament.categorie.code = :codeCategorie"
         + " GROUP BY nom")
     public List<UnitesParMedicament> medicamentsVendusPour(Integer codeCategorie);
+
+    /*Trouver tous les médicaments disponible à la commande pour une catégorie 
+    connue pas sa clé (Un médicament est disponible à la commande si il n'est pas 
+    indisponible et si sa quantité en stock unitesEnStock est supérieure ou égale à sa 
+    quantité en commande unitesCommandees) */
+
+    @Query ("SELECT med FROM Medicament med"
+        + " WHERE med.categorie.code = :codeCategorie"
+        + " AND med.indisponible = false"
+        + " AND med.unitesEnStock >= med.unitesCommandees"
+    )
+    public List<Medicament> medicamentsDisponiblesPourCategorie (Integer codeCategorie);
 }

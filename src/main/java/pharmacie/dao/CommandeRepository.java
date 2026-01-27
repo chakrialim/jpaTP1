@@ -27,6 +27,12 @@ public interface CommandeRepository extends JpaRepository<Commande, Integer> {
         + " AND commande.dateExpedition IS NOT NULL")
     public int nombreCommandesPourDispensaire(Integer codeDispensaire);
 
-    
+    /*Trouver toutes les commandes en cours pour un dispensaire connu 
+    par sa clé (Une commande est en cours si sa date d'envoi envoyeele n'est pas renseignée). */
+    @Query ("SELECT ALL FROM Commande commande"
+        + " WHERE commande.dispensaire.id = :codeDispensaire"
+        + " AND commande.dateExpedition IS NULL"
+    )
+    public List<Commande> commandesEnCoursPourDispensaire (Integer codeDispensaire);
 
 }
